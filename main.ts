@@ -43,18 +43,19 @@ basic.showString("JORDAN")
  */
 basic.forever(function () {
     while (run == 1) {
+        pins.servoWritePin(AnalogPin.P15, 90)
+        pins.servoWritePin(AnalogPin.P16, 90)
+        basic.pause(100)
+        pins.servoWritePin(AnalogPin.P15, 45)
+        pins.servoWritePin(AnalogPin.P16, 45)
+        basic.pause(100)
         current_surface_reading_L = pins.analogReadPin(AnalogPin.P0)
         current_surface_reading_C = pins.analogReadPin(AnalogPin.P1)
         current_surface_reading_R = pins.analogReadPin(AnalogPin.P2)
         motobit.enable(MotorPower.On)
         if (current_surface_reading_C <= black_Line_C - 40) {
             for (let index = 0; index < 5; index++) {
-                pins.servoWritePin(AnalogPin.P15, 90)
-                pins.servoWritePin(AnalogPin.P16, 90)
-                basic.pause(100)
-                pins.servoWritePin(AnalogPin.P15, 45)
-                pins.servoWritePin(AnalogPin.P16, 45)
-                basic.pause(100)
+            	
             }
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 75)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 75)
