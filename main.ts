@@ -4,6 +4,8 @@ input.onButtonPressed(Button.A, function () {
     black_Line_L = pins.analogReadPin(AnalogPin.P0)
     black_Line_C = pins.analogReadPin(AnalogPin.P1)
     black_Line_R = pins.analogReadPin(AnalogPin.P2)
+    basic.showIcon(IconNames.Yes)
+    basic.showString("SET")
 })
 input.onButtonPressed(Button.AB, function () {
     run = 1
@@ -13,8 +15,7 @@ input.onButtonPressed(Button.AB, function () {
     basic.pause(200)
 })
 input.onButtonPressed(Button.B, function () {
-    pins.servoWritePin(AnalogPin.P15, 45)
-    pins.servoWritePin(AnalogPin.P16, 45)
+    run = 1
 })
 let current_surface_reading_R = 0
 let current_surface_reading_C = 0
@@ -30,41 +31,7 @@ black_Line_L = pins.analogReadPin(AnalogPin.P0)
 black_Line_C = pins.analogReadPin(AnalogPin.P1)
 black_Line_R = pins.analogReadPin(AnalogPin.P2)
 run = 0
-basic.showLeds(`
-    . . # . .
-    . # . # .
-    # # # # #
-    . # . # .
-    . . # . .
-    `)
-basic.showLeds(`
-    . # . # .
-    # . . . #
-    # # # # #
-    # . . . #
-    . # . # .
-    `)
-basic.showLeds(`
-    # . . . #
-    . . . . .
-    # # . # #
-    . . . . .
-    # . . . #
-    `)
-basic.showLeds(`
-    . . . . .
-    . . . . .
-    # . . . #
-    . . . . .
-    . . . . .
-    `)
-basic.showLeds(`
-    . . . . .
-    . . . . .
-    . . . . .
-    . . . . .
-    . . . . .
-    `)
+basic.showString("JORDAN")
 /**
  * Case 1: If the center line following sensor sees a dark black line, move the servos before moving backward.
  */
