@@ -1,37 +1,3 @@
-input.onButtonPressed(Button.A, function () {
-    pins.servoWritePin(AnalogPin.P15, 90)
-    pins.servoWritePin(AnalogPin.P16, 90)
-    black_Line_L = pins.analogReadPin(AnalogPin.P0)
-    black_Line_C = pins.analogReadPin(AnalogPin.P1)
-    black_Line_R = pins.analogReadPin(AnalogPin.P2)
-    basic.showIcon(IconNames.Yes)
-    basic.showString("SET")
-})
-input.onButtonPressed(Button.AB, function () {
-    run = 1
-    motobit.enable(MotorPower.On)
-    motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
-    motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
-    basic.pause(200)
-})
-input.onButtonPressed(Button.B, function () {
-    run = 1
-})
-let current_surface_reading_R = 0
-let current_surface_reading_C = 0
-let current_surface_reading_L = 0
-let run = 0
-let black_Line_R = 0
-let black_Line_C = 0
-let black_Line_L = 0
-motobit.enable(MotorPower.Off)
-motobit.invert(Motor.Left, true)
-motobit.invert(Motor.Right, true)
-black_Line_L = pins.analogReadPin(AnalogPin.P0)
-black_Line_C = pins.analogReadPin(AnalogPin.P1)
-black_Line_R = pins.analogReadPin(AnalogPin.P2)
-run = 0
-basic.showString("JORDAN")
 /**
  * Case 1: If the center line following sensor sees a dark black line, move the servos before moving backward.
  */
@@ -41,57 +7,71 @@ basic.showString("JORDAN")
 /**
  * Case 3: If the right line following sensor sees a dark black line, move right servo before moving back and toward the left.
  */
+input.onButtonPressed(Button.A, function () {
+    pins.servoWritePin(AnalogPin.P15, 90)
+    pins.servoWritePin(AnalogPin.P16, 90)
+    black_Line_L = pins.analogReadPin(AnalogPin.P0)
+    black_Line_C = pins.analogReadPin(AnalogPin.P1)
+    black_Line_R = pins.analogReadPin(AnalogPin.P2)
+    basic.showIcon(IconNames.Yes)
+    basic.showString("SET")
+    serial.writeLine("set")
+})
+input.onButtonPressed(Button.AB, function () {
+    run = 0
+    serial.writeLine("stop")
+})
+input.onButtonPressed(Button.B, function () {
+    run = 1
+    basic.showString("B")
+    serial.writeLine("Run")
+})
+let current_surface_reading_R = 0
+let current_surface_reading_C = 0
+let current_surface_reading_L = 0
+let black_Line_R = 0
+let black_Line_C = 0
+let black_Line_L = 0
+let run = 0
+serial.redirectToUSB()
+motobit.enable(MotorPower.Off)
+motobit.invert(Motor.Left, true)
+motobit.invert(Motor.Right, true)
+run = 0
+basic.showString("JORDAN")
+serial.writeLine("\"Jordan\"")
 basic.forever(function () {
+    serial.writeLine("" + current_surface_reading_L + "," + current_surface_reading_C + "," + current_surface_reading_R)
     while (run == 1) {
-        pins.servoWritePin(AnalogPin.P15, 90)
-        pins.servoWritePin(AnalogPin.P16, 90)
+        serial.writeLine("" + current_surface_reading_L + "," + current_surface_reading_C + "," + current_surface_reading_R)
+        pins.servoWritePin(AnalogPin.P15, 0)
         basic.pause(100)
-        pins.servoWritePin(AnalogPin.P15, 45)
-        pins.servoWritePin(AnalogPin.P16, 45)
+        pins.servoWritePin(AnalogPin.P16, 180)
+        basic.pause(100)
+        pins.servoWritePin(AnalogPin.P15, 90)
+        basic.pause(100)
+        pins.servoWritePin(AnalogPin.P16, 90)
         basic.pause(100)
         current_surface_reading_L = pins.analogReadPin(AnalogPin.P0)
         current_surface_reading_C = pins.analogReadPin(AnalogPin.P1)
         current_surface_reading_R = pins.analogReadPin(AnalogPin.P2)
         motobit.enable(MotorPower.On)
-        if (current_surface_reading_C <= black_Line_C - 40) {
-            for (let index = 0; index < 5; index++) {
-            	
-            }
-            motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 75)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 75)
+        if (current_surface_reading_L <= black_Line_L - 40) {
+            motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
+            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
+            basic.pause(200)
+        } else if (current_surface_reading_R <= black_Line_R - 40) {
+            motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
+            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
+            basic.pause(200)
+        } else if (current_surface_reading_C <= black_Line_C - 40) {
+            motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
+            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
             basic.pause(200)
         } else {
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
             basic.pause(200)
         }
-        if (current_surface_reading_L <= black_Line_L - 100) {
-            for (let index = 0; index < 5; index++) {
-                basic.pause(50)
-                pins.servoWritePin(AnalogPin.P15, 90)
-                basic.pause(100)
-                pins.servoWritePin(AnalogPin.P15, 45)
-                basic.pause(100)
-            }
-            motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 75)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 25)
-            basic.pause(200)
-        } else if (current_surface_reading_R <= black_Line_R - 100) {
-            for (let index = 0; index < 5; index++) {
-                basic.pause(50)
-                pins.servoWritePin(AnalogPin.P16, 90)
-                basic.pause(100)
-                pins.servoWritePin(AnalogPin.P16, 45)
-                basic.pause(100)
-            }
-            motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 25)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 75)
-            basic.pause(200)
-        } else {
-            motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
-            basic.pause(200)
-        }
-        motobit.enable(MotorPower.Off)
     }
 })
