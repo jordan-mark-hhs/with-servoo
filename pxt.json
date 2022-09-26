@@ -1,5 +1,5 @@
 {
-    "name": "wt",
+    "name": "Battle bot",
     "description": "",
     "dependencies": {
         "core": "*",

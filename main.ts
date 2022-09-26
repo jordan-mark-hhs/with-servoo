@@ -67,7 +67,7 @@ basic.forever(function () {
         current_surface_reading_C = pins.analogReadPin(AnalogPin.P1)
         current_surface_reading_R = pins.analogReadPin(AnalogPin.P2)
         motobit.enable(MotorPower.On)
-        if (current_surface_reading_L >= black_Line_L - 15) {
+        if (current_surface_reading_L >= black_Line_L - 12) {
             basic.showLeds(`
                 # . . . .
                 # . . . .
@@ -78,7 +78,7 @@ basic.forever(function () {
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
             basic.pause(100)
-        } else if (current_surface_reading_R >= black_Line_R - 20) {
+        } else if (current_surface_reading_R >= black_Line_R - 27) {
             basic.showLeds(`
                 . . . . #
                 . . . . #
@@ -89,7 +89,7 @@ basic.forever(function () {
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 40)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 50)
             basic.pause(200)
-        } else if (current_surface_reading_C >= black_Line_C - 40) {
+        } else if (current_surface_reading_C >= black_Line_C - 30) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
@@ -97,11 +97,8 @@ basic.forever(function () {
                 . . # . .
                 . . # . .
                 `)
-            motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 40)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 40)
-            basic.pause(100)
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 40)
+            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 20)
             basic.pause(100)
         } else {
             basic.showLeds(`
@@ -113,7 +110,7 @@ basic.forever(function () {
                 `)
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
-            basic.pause(100)
+            basic.pause(50)
         }
     }
 })
