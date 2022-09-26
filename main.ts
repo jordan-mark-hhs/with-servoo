@@ -1,6 +1,12 @@
 /**
  * Case 1: If the center line following sensor sees a dark black line, move the servos before moving backward.
  */
+/**
+ * Case 2: If the left line following sensor sees a dark black line, move left servo before moving back and toward the right.
+ */
+/**
+ * Case 3: If the right line following sensor sees a dark black line, move right servo before moving back and toward the left.
+ */
 input.onButtonPressed(Button.A, function () {
     pins.servoWritePin(AnalogPin.P15, 90)
     pins.servoWritePin(AnalogPin.P16, 90)
@@ -21,6 +27,7 @@ input.onButtonPressed(Button.AB, function () {
         . . . . .
         `)
     basic.pause(100)
+    motobit.enable(MotorPower.Off)
 })
 input.onButtonPressed(Button.B, function () {
     run = 1
@@ -41,12 +48,6 @@ motobit.invert(Motor.Right, true)
 run = 0
 basic.showString("JORDAN")
 serial.writeLine("\"Jordan\"")
-/**
- * Case 2: If the left line following sensor sees a dark black line, move left servo before moving back and toward the right.
- */
-/**
- * Case 3: If the right line following sensor sees a dark black line, move right servo before moving back and toward the left.
- */
 basic.forever(function () {
     current_surface_reading_L = pins.analogReadPin(AnalogPin.P0)
     current_surface_reading_C = pins.analogReadPin(AnalogPin.P1)
@@ -66,7 +67,7 @@ basic.forever(function () {
         current_surface_reading_C = pins.analogReadPin(AnalogPin.P1)
         current_surface_reading_R = pins.analogReadPin(AnalogPin.P2)
         motobit.enable(MotorPower.On)
-        if (current_surface_reading_L >= black_Line_L - 20) {
+        if (current_surface_reading_L >= black_Line_L - 15) {
             basic.showLeds(`
                 # . . . .
                 # . . . .
@@ -76,8 +77,8 @@ basic.forever(function () {
                 `)
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
-            basic.pause(200)
-        } else if (current_surface_reading_R >= black_Line_R - 35) {
+            basic.pause(100)
+        } else if (current_surface_reading_R >= black_Line_R - 20) {
             basic.showLeds(`
                 . . . . #
                 . . . . #
@@ -85,8 +86,8 @@ basic.forever(function () {
                 . . . . .
                 . . . . .
                 `)
-            motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
+            motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 40)
+            motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 50)
             basic.pause(200)
         } else if (current_surface_reading_C >= black_Line_C - 40) {
             basic.showLeds(`
@@ -96,9 +97,12 @@ basic.forever(function () {
                 . . # . .
                 . . # . .
                 `)
+            motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 40)
+            motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 40)
+            basic.pause(100)
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
-            basic.pause(200)
+            motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 40)
+            basic.pause(100)
         } else {
             basic.showLeds(`
                 . . # . .
@@ -109,7 +113,7 @@ basic.forever(function () {
                 `)
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
-            basic.pause(200)
+            basic.pause(100)
         }
     }
 })
