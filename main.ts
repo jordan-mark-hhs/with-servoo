@@ -13,8 +13,8 @@ input.onButtonPressed(Button.A, function () {
     black_Line_L = pins.analogReadPin(AnalogPin.P0)
     black_Line_C = pins.analogReadPin(AnalogPin.P1)
     black_Line_R = pins.analogReadPin(AnalogPin.P2)
-    basic.showString("SET")
     serial.writeLine("set")
+    basic.showIcon(IconNames.Yes)
 })
 input.onButtonPressed(Button.AB, function () {
     run = 0
@@ -46,8 +46,8 @@ motobit.enable(MotorPower.Off)
 motobit.invert(Motor.Left, true)
 motobit.invert(Motor.Right, true)
 run = 0
-basic.showString("JORDAN")
-serial.writeLine("\"Jordan\"")
+serial.writeLine("Start")
+basic.showIcon(IconNames.SmallHeart)
 basic.forever(function () {
     current_surface_reading_L = pins.analogReadPin(AnalogPin.P0)
     current_surface_reading_C = pins.analogReadPin(AnalogPin.P1)
@@ -75,8 +75,8 @@ basic.forever(function () {
                 . . . . .
                 . . . . .
                 `)
-            motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
-            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
+            motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 50)
+            motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 15)
             basic.pause(100)
         } else if (current_surface_reading_R >= black_Line_R - 27) {
             basic.showLeds(`
@@ -86,9 +86,9 @@ basic.forever(function () {
                 . . . . .
                 . . . . .
                 `)
-            motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 40)
+            motobit.setMotorSpeed(Motor.Left, MotorDirection.Reverse, 15)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 50)
-            basic.pause(200)
+            basic.pause(100)
         } else if (current_surface_reading_C >= black_Line_C - 30) {
             basic.showLeds(`
                 . . . . .
@@ -99,7 +99,6 @@ basic.forever(function () {
                 `)
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 20)
-            basic.pause(100)
         } else {
             basic.showLeds(`
                 . . # . .
@@ -110,7 +109,6 @@ basic.forever(function () {
                 `)
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 40)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Forward, 40)
-            basic.pause(50)
         }
     }
 })
