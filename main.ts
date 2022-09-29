@@ -92,7 +92,7 @@ basic.forever(function () {
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 30)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 50)
             basic.pause(50)
-        } else if (input.acceleration(Dimension.Y) <= 500) {
+        } else if (input.acceleration(Dimension.Strength) < 0) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
