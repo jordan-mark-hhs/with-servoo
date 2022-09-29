@@ -34,6 +34,9 @@ input.onButtonPressed(Button.B, function () {
     basic.showString("B")
     serial.writeLine("Run")
 })
+input.onGesture(Gesture.Shake, function () {
+	
+})
 let current_surface_reading_R = 0
 let current_surface_reading_C = 0
 let current_surface_reading_L = 0
@@ -89,7 +92,7 @@ basic.forever(function () {
             motobit.setMotorSpeed(Motor.Left, MotorDirection.Forward, 30)
             motobit.setMotorSpeed(Motor.Right, MotorDirection.Reverse, 50)
             basic.pause(50)
-        } else if (input.acceleration(Dimension.X) < 10000) {
+        } else if (input.acceleration(Dimension.Y) <= 500) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
